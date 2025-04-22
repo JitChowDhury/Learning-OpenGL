@@ -2,6 +2,7 @@
 #include<glad\glad.h>
 #include<GLFW\glfw3.h>
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void processInput(GLFWwindow* window);
 
 int main()
 {
@@ -19,7 +20,7 @@ int main()
 		return -1;
 	}
 
-	glfwMakeContextCurrent(window);
+	glfwMakeContextCurrent(window);//tells opengl to draw to this window
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
@@ -33,10 +34,18 @@ int main()
 
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	while (!glfwWindowShouldClose(window))
+
+	//render loop / game loop
+
+	while (!glfwWindowShouldClose(window))//checks windows should close or not
 	{
-		
-		glfwSwapBuffers(window);//swap buffer , back to front , then draws in back and it comnes to front and it goes on...
+		processInput(window);
+
+		//render
+		glClearColor(0.4f, 0.2f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		glfwSwapBuffers(window);//swap buffer , back to front , then draws in back and it comnes to front and it goes on...(prevents flickering) buffer is temporary place to store
 		glfwPollEvents();
 	}
 	glfwTerminate();
@@ -46,4 +55,12 @@ int main()
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
+}
+
+void processInput(GLFWwindow* window)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	{
+		glfwSetWindowShouldClose(window, true);
+	}
 }
