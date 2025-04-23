@@ -1,2 +1,1 @@
-glad.c linguist-language=C++
-glad.c linguist-vendored
+OpenGL/src/*.c linguist-vendored
